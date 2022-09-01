@@ -1,12 +1,13 @@
 import React from "react";
 import Team from "./Team";
 
-const Battle = ({ team1, team2, setBracket }) => {
+const Battle = ({teams, handleBattle, roundNumber, battleNumber}) => {
     return (
         <div className="Battle">
-            <p>Battle</p>
-            <Team name={team1} setBracket={setBracket} />
-            <Team name={team2} setBracket={setBracket} />
+            <p>Battle {battleNumber}</p>
+            
+            <Team name={teams[0]} handleBattle={handleBattle} battleNumber={battleNumber} roundNumber={roundNumber}/>
+            <Team name={teams[1]} handleBattle={handleBattle} battleNumber={battleNumber} roundNumber={roundNumber}/>
         </div>
     );
 }

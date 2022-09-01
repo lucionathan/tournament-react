@@ -1,30 +1,39 @@
-import React, { useState } from "react";
 import './App.css';
+import data from "./data.json";
+import { useState } from "react";
 import Round from "./components/Round";
 
 const App = () => {
-  const [bracket, setBracket] = useState([["p3dro","vini","yuri","anathan","tomazela","luva","marcos","ocimar"], [], []]);
 
-  const handlex = (round, nome) => {
-    bracket[round + 1].push(nome)
-    setBracket(bracket)
+  const [bracket, setBracket] = useState([data, ["", "", "", ""], ["", ""]]);
+
+  const handleBattle = (round, battle, name) => {
+    let bracketAux = [...bracket];
+    bracketAux[round+1][battle] = name;
+
+    setBracket(bracketAux);
   }
 
   const renderRoundsAux = (teams) => {
     let indents = [];
-   
-    teams.forEach(round => {
-      console.log(round)
-      indents.push(<Round key={} teams={round} setBracket={handlex}/>);
+
+    let roundNumber = 0;
+
+    bracket.forEach((round) => {
+      indents.push(<Round numberOfBattles={round.length} teams={round} handleBattle={handleBattle} roundNumber={roundNumber}/>);
+      roundNumber++;
     });
+    
 
     return indents;
   }
 
   return (
     <div className="App">
-      <h1>Aaaaaaaaaaaaaaaaaaa</h1>
-      {renderRoundsAux(bracket)}
+      <h1>{data.length}</h1>
+      {renderRoundsAux(data)}
+
+
     </div>
   );
 }
