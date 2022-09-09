@@ -49,8 +49,8 @@
   margin-top: -5px;
   /* display: flex; */
   vertical-align: top;
-
-
+  margin: auto;
+  align-self: center;
 }
 
 .Team p {
