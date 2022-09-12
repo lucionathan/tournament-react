@@ -12,14 +12,13 @@ const App = () => {
     setBracket(generateArrays(data));
   }, [])
 
-  const generateArrays = (data) => {
-    // let dataSize = data.length;
-    let dataSize = Math.pow(2, Math.ceil(Math.log(data.length)/Math.log(2)));
-    console.log(dataSize);
 
+  // TODO refactor this function
+  const generateArrays = (arr) => {
+
+    let dataSize = Math.pow(2, Math.ceil(Math.log(arr.length)/Math.log(2)));
 
     let testData = [];
-    let length = 5; // user defined length
 
     for(let i = 0; i < dataSize; i++) {
       testData.push(null);
@@ -27,13 +26,15 @@ const App = () => {
 
     let counter = 0;
 
+    arr = shuffle(arr);
+
     for(let i = 0; i < dataSize; i = i+2) {
-      testData[i] = data[counter];
+      testData[i] = arr[counter];
       counter++;
     }
 
     for(let i = 1; i < dataSize; i = i+2) {
-      testData[i] = data[counter];
+      testData[i] = arr[counter];
       counter++;
     }
 
@@ -53,7 +54,7 @@ const App = () => {
       dataSize = dataSize/2;
     }
 
-    dataSize = Math.pow(2, Math.ceil(Math.log(data.length)/Math.log(2)));
+    dataSize = Math.pow(2, Math.ceil(Math.log(arr.length)/Math.log(2)));
 
     for(let i = 0; i < dataSize-1; i = i+2) {
       
@@ -63,18 +64,30 @@ const App = () => {
       }
 
     }
-    console.log(returnArr)
 
     returnArr[0] = returnArr[0].filter(item => item)
-    console.log(returnArr)
 
     return returnArr;
+  }
+
+  const shuffle = (array) => {
+    let currentIndex = array.length,  randomIndex;
+  
+    while (currentIndex != 0) {
+  
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
   }
 
   const handleBattle = (round, battle, name) => {
     let bracketAux = [...bracket];
     bracketAux[round+1][battle] = name;
-    
     setBracket(bracketAux);
   }
 
