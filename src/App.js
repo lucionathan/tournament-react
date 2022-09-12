@@ -3,16 +3,17 @@ import data from "./data.json";
 import { useEffect, useState } from "react";
 import Round from "./components/Round";
 import Team from "./components/Team";
+import { Space } from "react-zoomable-ui";
 
 const App = () => {
 
   const [bracket, setBracket] = useState([]);
 
   useEffect(() => {
-    setBracket(generateArrays(data));
+    setBracket(generateArrays(shuffleData(data)));
   }, [])
 
-
+  
   // TODO refactor this function
   const generateArrays = (arr) => {
 
@@ -25,8 +26,6 @@ const App = () => {
     }
 
     let counter = 0;
-
-    arr = shuffle(arr);
 
     for(let i = 0; i < dataSize; i = i+2) {
       testData[i] = arr[counter];
@@ -70,7 +69,7 @@ const App = () => {
     return returnArr;
   }
 
-  const shuffle = (array) => {
+  const shuffleData = (array) => {
     let currentIndex = array.length,  randomIndex;
   
     while (currentIndex != 0) {
@@ -85,6 +84,15 @@ const App = () => {
     return array;
   }
 
+  const shuffle = () => {
+    setBracket(generateArrays(shuffleData(data)));
+
+  }
+
+  const reset = () => {
+    setBracket(generateArrays(data));
+  }
+
   const handleBattle = (round, battle, name) => {
     let bracketAux = [...bracket];
     bracketAux[round+1][battle] = name;
@@ -93,6 +101,7 @@ const App = () => {
 
   const renderRoundsAux = () => {
     let indents = [];
+    console.log("click2")
 
     let roundNumber = 0;
     bracket.forEach((round) => {
@@ -109,11 +118,14 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      {renderRoundsAux(data)}
+    <Space>
+      <div className="App">
+        {renderRoundsAux()}
 
-
-    </div>
+        <button className="Button aux" onClick={reset}>RESET</button>
+        <button className="Button aux" onClick={shuffle}>SHUFFLE</button>
+      </div>
+    </Space>
   );
 }
 
